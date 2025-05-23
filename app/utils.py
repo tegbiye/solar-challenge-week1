@@ -3,6 +3,8 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 from scipy.stats import f_oneway, kruskal
 
+# loads the combined data of cleaned respective contries
+
 
 def load_combined_data():
     try:
@@ -18,24 +20,34 @@ def load_combined_data():
 
     return pd.concat([benin, sierraleone, togo], ignore_index=True)
 
+# Summary of metrics
+
 
 def compute_summary(df, metric):
-    summary = df.groupby("Country")[[metric]].agg(['mean', 'median', 'std']).round(2)
+    summary = df.groupby("Country")[[metric]].agg(
+        ['mean', 'median', 'std']).round(2)
     summary.columns = ['_'.join(col) for col in summary.columns]
     return summary
 
+# Statistical tests
+
 
 def perform_stat_tests(df, metric):
-    grouped = [group[metric].dropna().values for _, group in df.groupby("Country")]
+    grouped = [group[metric].dropna().values for _,
+               group in df.groupby("Country")]
     if len(grouped) < 2:
         return None, None
     return f_oneway(*grouped).pvalue, kruskal(*grouped).pvalue
+
+# Box plot
 
 
 def plot_boxplot(df, metric):
     fig, ax = plt.subplots(figsize=(10, 5))
     sns.boxplot(data=df, x="Country", y=metric, palette="pastel", ax=ax)
     return fig
+
+# Ranking bar plot
 
 
 def plot_ranking_bar(df):

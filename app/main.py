@@ -4,9 +4,12 @@ from utils import load_combined_data, compute_summary, perform_stat_tests, plot_
 st.set_page_config(layout="wide", page_title="Solar Dashboard")
 
 # Load and cache data
+
+
 @st.cache_data
 def get_data():
     return load_combined_data()
+
 
 df = get_data()
 if df.empty:
@@ -16,11 +19,13 @@ if df.empty:
 # Sidebar filters
 st.sidebar.title("Controls")
 metric = st.sidebar.selectbox("Select Metric", ['GHI', 'DNI', 'DHI'])
-countries = st.sidebar.multiselect("Select Countries", df['Country'].unique(), default=df['Country'].unique())
+countries = st.sidebar.multiselect(
+    "Select Countries", df['Country'].unique(), default=df['Country'].unique())
 filtered_df = df[df['Country'].isin(countries)]
 
-# Tabs
-tab1, tab2, tab3, tab4 = st.tabs(["📦 Boxplot", "📈 Summary", "🧪 Stats Test", "📊 Ranking"])
+# Tabs to show the Box plot, summmry metrics, Stats test, and ranking
+tab1, tab2, tab3, tab4 = st.tabs(
+    ["📦 Boxplot", "📈 Summary", "🧪 Stats Test", "📊 Ranking"])
 
 with tab1:
     st.header(f"{metric} by Country")
