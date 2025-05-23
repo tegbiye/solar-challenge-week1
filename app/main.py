@@ -1,5 +1,5 @@
 import streamlit as st
-from app.utils import load_combined_data, compute_summary, perform_stat_tests, plot_boxplot, plot_ranking_bar
+from utils import load_combined_data, compute_summary, perform_stat_tests, plot_boxplot, plot_ranking_bar
 
 st.set_page_config(layout="wide", page_title="Solar Dashboard")
 
